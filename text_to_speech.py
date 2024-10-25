@@ -19,21 +19,30 @@ print("project id : "+PROJECT_ID+" location : "+LOCATION)
 
 #text to speech code with google cloud 
 
+# Initialize the Text-to-Speech client with credentials
 client = texttospeech.TextToSpeechClient(credentials=credentials)
 
-text_input = texttospeech.SynthesisInput(text="Cognipath is the best platform in the world.")
+# Input text to synthesize
+text_input = texttospeech.SynthesisInput(text="Movies, oh my gosh, I just just absolutely love them. They're like time machines taking you to different worlds and landscapes, and um, and I just can't get enough of it.")
 
+# Voice selection with higher-pitched female voice for child-like quality
 voice = texttospeech.VoiceSelectionParams(
+    name="en-US-Journey-F",  
     language_code="en-US",
-    ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+    ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
 )
 
+# Audio configuration with adjustments for pitch and speaking rate
 audio_config = texttospeech.AudioConfig(
-    audio_encoding=texttospeech.AudioEncoding.MP3
+    audio_encoding=texttospeech.AudioEncoding.MP3,
+    pitch=0,              #  (range -20.0 to 20.0)
+    speaking_rate=1.0       # speaking rate (normal is 1.0)
 )
 
+# Synthesize the speech
 response = client.synthesize_speech(input=text_input, voice=voice, audio_config=audio_config)
 
+# Save the synthesized audio to an MP3 file
 with open("output.mp3", "wb") as out:
     out.write(response.audio_content)
-    print("L'audio a été sauvegardé dans 'output.mp3'")
+    print("The audio has been saved as 'output.mp3'")
