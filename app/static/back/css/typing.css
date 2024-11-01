@@ -1,0 +1,9 @@
+.typing-demo {
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-size: 1.8em;
+  color: aliceblue;
+  margin-left: 40%;
+}

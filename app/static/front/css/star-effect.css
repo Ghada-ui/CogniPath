@@ -1,0 +1,261 @@
+.glow-point {
+    position: absolute;
+    box-shadow: 0rem 0rem 1.2rem 0.6rem rgb(var(--glow-rgb));
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 1rem;
+    animation-duration: 1500ms;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+    color: rgb(255, 230, 0);
+}
+
+@keyframes fall-1 {
+    0% {
+        transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(0.25);
+        opacity: 0;
+    }
+
+    5% {
+        transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg) rotateZ(90deg) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes fall-2 {
+    0% {
+        transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg) scale(0.25);
+        opacity: 0;
+    }
+
+    10% {
+        transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg) scale(0.25);
+        opacity: 0;
+    }
+}
+
+@keyframes fall-3 {
+    0% {
+        transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg) scale(0.5);
+        opacity: 0;
+    }
+
+    15% {
+        transform: translate(7px, 5px) rotateX(0deg) rotateY(45deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg) scale(0.5);
+        opacity: 0;
+    }
+}
+
+        /* KEYFRAMES */
+        @keyframes spin {
+            from { transform: rotate(0); }
+            to { transform: rotate(359deg); }
+        }
+
+        @keyframes spin3D {
+            from { transform: rotate3d(.5,.5,.5, 360deg); }
+            to { transform: rotate3d(0deg); }
+        }
+        .spinner-box {
+            position: absolute;
+            margin-left: -29%;
+            margin-top: -28%;
+        }
+        /* SOLAR SYSTEM */
+        .solar-system {
+            width: 1000px; /* Increased size */
+            height: 1000px; /* Increased size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .orbit {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ffffff;
+            border-radius: 50%;
+        }
+
+        .earth-orbit {
+            width: 660px; /* Increased size */
+            height: 660px; /* Increased size */
+            -webkit-animation: spin 12s linear 0s infinite;
+        }
+
+        .venus-orbit {
+            width: 480px; /* Increased size */
+            height: 480px; /* Increased size */
+            -webkit-animation: spin 7.4s linear 0s infinite;
+        }
+
+        .mercury-orbit {
+            width: 360px; /* Increased size */
+            height: 360px; /* Increased size */
+            -webkit-animation: spin 3s linear 0s infinite;
+        }
+
+        .planet {
+            position: absolute;
+            top: -5px; /* Adjusted position */
+            width: 10px; /* Increased size */
+            height: 10px; /* Increased size */
+            border-radius: 50%;
+            background-color: #0095ff;
+        }
+
+        .sun {
+            width: 140px; /* Increased size */
+            height: 140px; /* Increased size */
+            border-radius: 50%;
+            background-color: #007bff;
+        }
+        .communication-img{
+                position: absolute;
+                margin-left: 19%;
+                margin-top: 0%;
+        }
+        .animated-image {
+            position: absolute;
+            bottom: 0;
+            animation: moveUpDown 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        .idea{
+            margin-bottom: 73%;
+            margin-left: 74%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .pen {
+            margin-left: 23%;
+            margin-bottom: 12%;
+            width: 6%;
+            height: 19%;
+        }
+        .pen-writing {
+            margin-left: 23%;
+            margin-bottom: 22%;
+            width: 4%;
+            height: 12%;
+        }
+        .sparkle {
+            margin-left: 57%;
+            margin-bottom: 27%;
+            width: 6%;
+            height: 14%;
+        }
+
+        @keyframes moveUpDown {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px); /* Déplace l'image vers le haut */
+            }
+            100% {
+                transform: translateY(0); /* Ramène l'image à sa position initiale */
+            }
+        }
+        @media (max-width: 768px) {
+            .spinner-box {
+                margin-left: -27%;
+                margin-top: -2%;
+            }
+            .solar-system {
+                width: 500px; /* Reduced size */
+                height: 500px; /* Reduced size */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .orbit {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ffffff;
+                border-radius: 50%;
+            }
+            
+            .earth-orbit {
+                width: 330px; /* Reduced size */
+                height: 330px; /* Reduced size */
+                -webkit-animation: spin 12s linear 0s infinite;
+            }
+            
+            .venus-orbit {
+                width: 240px; /* Reduced size */
+                height: 240px; /* Reduced size */
+                -webkit-animation: spin 7.4s linear 0s infinite;
+            }
+            
+            .mercury-orbit {
+                width: 180px; /* Reduced size */
+                height: 180px; /* Reduced size */
+                -webkit-animation: spin 3s linear 0s infinite;
+            }
+            
+            .planet {
+                position: absolute;
+                top: -2.5px; /* Adjusted position */
+                width: 5px; /* Reduced size */
+                height: 5px; /* Reduced size */
+                border-radius: 50%;
+                background-color: #0095ff;
+            }
+            
+            .sun {
+                width: 70px; /* Reduced size */
+                height: 70px; /* Reduced size */
+                border-radius: 50%;
+                background-color: #007bff;
+            }
+            .idea {
+                margin-bottom: 65%;
+                margin-left: 71%;
+                width: 17vw;
+                height: 17vw;
+            }
+            .communication-img {
+                position: absolute;
+                margin-left: 24%;
+                margin-top: 27%;
+                width: 53%;
+            }
+            @keyframes moveUpDown {
+                0% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-20px); /* Déplace l'image vers le haut */
+                }
+                100% {
+                    transform: translateY(0); /* Ramène l'image à sa position initiale */
+                }
+            }
+        }

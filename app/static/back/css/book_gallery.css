@@ -1,0 +1,281 @@
+*, *::before ,*::after {
+    box-sizing: border-box;
+  }
+  
+  .book1 {
+    width: 800px;
+    margin-bottom:50px;
+    max-width: 100%;
+    height: 430px;
+    max-height: 70vw;
+    position: absolute;
+    left: 55%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    perspective: 1500px;
+    user-select: none;
+  }
+  
+  .page {
+    width: 49%;
+    height: 98%;
+    padding: 20px;
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    font-size: 16px;
+    line-height: 24px;
+    color: black;
+    background-color: #fff5e6;
+    background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+    transition: transform .5s;
+    transform: rotateY(-180deg);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    z-index: 4;
+  
+    &:nth-of-type(2n) {
+      left: 1px;
+      background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
+      transform-origin: right center;
+      transform: rotateY(0);
+  
+      &:not(.cover) {
+        left: calc(1% + 1px);
+      }
+    }
+  
+    h2 {
+      text-align: center;
+    }
+  
+    h2 + p::first-letter {
+      font-size: 44px;
+      float: left;
+      height: 44px;
+      line-height: 36px;
+      vertical-align: baseline;
+      margin-right: 6px;
+      border-radius: 5px;
+    }
+  }
+  
+  input[type=radio] {
+    display: none;
+  }
+  
+  input:checked {
+    & ~ .page {
+      transform: rotateY(0);
+    }
+  
+    & ~ .page:nth-of-type(2n) {
+      transform: rotateY(180deg);
+    }
+  
+    & ~ .page:nth-of-type(2n-1) {
+      z-index: 3;
+    }
+  
+    & ~ .page:nth-of-type(2n-1) ~ .page:nth-of-type(2n-1) {
+      z-index: 1;
+    }
+  
+    & + .page + .page + input + .page {
+      z-index: 2 !important; 
+    }
+  }
+
+  .cover {
+    width: 50%;
+    height: 100%;
+    top: 0;
+    border-radius: 0 3px 3px 0;
+    background-color: #2A7DC2;
+    
+    
+    h1 {
+      color: #eee;
+      text-align: center;
+      text-shadow: -1px -1px 2px rgba(0,0,0,.5);
+      margin-top: 50px;
+  
+      margin-left:-15px;
+      position: relative;
+  
+      &::after {    
+        content: "";
+        display: block;
+        width: 60px;
+        position: absolute;
+        bottom: -20px;
+        margin-left: -30px;
+        left: 50%;
+        border-top: 1px solid #ec5757;
+        box-shadow: -1px -1px 2px rgba(0,0,0,.5);
+      }
+    }
+  
+    & + .cover {
+      border-radius: 3px 0 0 3px;
+    }
+  
+    &:first-of-type, &:last-of-type {
+      background-image: none;
+  
+      &::before {
+        content: "";
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        border: 2px dashed rgba(0,0,0,.2);
+        position: absolute;
+        top: 9px;
+        left: 9px;
+      }
+    }
+  }
+  
+  
+      
+        #wordContainer {
+          background-color: white;
+      display: flex;
+      flex-wrap: wrap;
+      width: 506px;
+      padding: 10px;
+      margin-top: 333px;
+      margin-left: -262px;
+      position: absolute;
+      
+  
+          }
+  
+          #wordContainer div {
+      white-space: nowrap;
+      padding: 5px;
+      /* border: 1px solid #000; */
+      margin: 5px;
+      color: rgb(0, 0, 0);
+  }
+    .search-box {
+        display: flex;
+        align-items: center;
+        background-color: #f7f9fc;
+        border-radius: 50px;
+        padding: 10px 20px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        margin-top: 78%;
+        margin-left: 8%;
+    }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #606f7b;
+        }
+
+        .search-box input::placeholder {
+            color: #9fa6b2;
+        }
+
+        .search-box .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box .icon-wrapper {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-box .icon-wrapper:hover {
+            background-color: #e0e0e0;
+        }
+
+        .search-box .icon-wrapper span {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .search-box .icon-wrapper span img {
+            width: 24px;
+            height: 24px;
+        }
+        .stories {
+                display:flex;
+                }
+
+        .card {
+            width: 21%;
+            height: 40%;
+            margin: 50px;
+            border-radius: 50px;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            box-shadow: 0px 0px 10px fade(#fff, 80%);
+            background-size: cover !important;
+        &::after {
+            width:100%;
+            height:100%;
+            border-radius:50px;
+            position:absolute;
+            top:0;left:0;
+            z-index:-1;
+            content:'';
+            background:inherit;
+            filter:blur(20px);
+            transform:scale(1.05);
+            opacity:0.8;
+            transition:500ms all ease-in-out 0ms;
+        }
+        &:hover::after {
+            transform:scale(0.8);
+            opacity:0;
+        }
+        }
+        
+        .card:nth-of-type(1) {
+        background:url('../img/story1.svg');
+        top: 18%;
+        left: 17%;
+        }
+        .card:nth-of-type(2) {
+        background:url('../img/story3.svg');
+        top: 18%;
+        left: 42%;
+        }
+        .card:nth-of-type(3) {
+        background:url('../img/story4.svg');
+        top: 18%;
+        left: 67%;
+        }
+        .generatedimg{
+            width: 100%;
+            float: right;
+            margin-top: 20px;
+            display: block;
+            border-radius: 33px;
+        }
+    
