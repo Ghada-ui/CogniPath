@@ -19,7 +19,7 @@ aiplatform.init(project = PROJECT_ID,location=LOCATION, credentials=credentials)
 print("project id : "+PROJECT_ID+" location : "+LOCATION)
 
 output_file = "my-output.png"
-prompt = "a magical landscape with a castle in the sky"
+prompt = "man holding a child in the air"
 
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 
