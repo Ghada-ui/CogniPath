@@ -25,21 +25,22 @@ vertexai.init(project=PROJECT_ID, location=LOCATION)
 
 model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
 
-images = model.generate_images(
-    prompt=prompt,
-    # Optional parameters
-    number_of_images=1,
-    language="en",
-    # You can't use a seed value and watermark at the same time.
-    # add_watermark=False,
-    # seed=100,
-    aspect_ratio="1:1",
-    safety_filter_level="block_some"
-)
-
-images[0].save(location=output_file, include_generation_parameters=False)
-
-# Optional. View the generated image in a notebook.
-# images[0].show()
-
-print(f"Created output image using {len(images[0]._image_bytes)} bytes")
+try:
+    images = model.generate_images(
+        prompt=prompt,
+        number_of_images=1,
+        language="en",
+        aspect_ratio="1:1",
+        safety_filter_level="block_some"
+    )
+    
+    # Check if images were returned
+    if images:
+        print("Image generated successfully.")
+        images[0].save(location=output_file, include_generation_parameters=False)
+        print(f"Created output image using {len(images[0]._image_bytes)} bytes")
+    else:
+        print("No images returned from the model.")
+        
+except Exception as e:
+    print(f"An error occurred: {e}")
