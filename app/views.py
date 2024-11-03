@@ -1675,19 +1675,28 @@ def quiz_end():
     return render_template('simplify.html')
 
 
-def generate_image_and_save(prompt,output_file):
+def generate_image_and_save(prompt, output_file):
+    try:
+        model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
 
-    model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
+        images = model.generate_images(
+            prompt=prompt,
+            number_of_images=1,
+            language="en",
+            aspect_ratio="1:1",
+            safety_filter_level="block_some"
+        )
 
-    images = model.generate_images(
-        prompt=prompt,
-        number_of_images=1,
-        language="en",
-        aspect_ratio="1:1",
-        safety_filter_level="block_some"
-    )
+        # Check if any images were returned
+        if images:
+            images[0].save(location=output_file, include_generation_parameters=False)
+            print(f"Created output image using {len(images[0]._image_bytes)} bytes in {output_file}")
+        else:
+            print("No images returned from the model.")
+            return render_template('simplify.html')  # Render the template if no image is generated
 
-    images[0].save(location=output_file, include_generation_parameters=False)
-
-    print(f"Created output image using {len(images[0]._image_bytes)} bytes in {output_file}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        # Render the specified template if an error occurs
+        return render_template('simplify.html')
 
