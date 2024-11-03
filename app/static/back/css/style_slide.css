@@ -3,8 +3,8 @@
   --navbar-width: 256px;
   --navbar-width-min: 80px;
   --navbar-dark-primary: #ffffff;
-  --navbar-dark-secondary: #;
-  --navbar-light-primary: #0db8f6;
+  --navbar-dark-secondary: #ffffff;
+  --navbar-light-primary: #000000;
   --navbar-light-secondary: #000000;
 }
 
@@ -148,7 +148,10 @@ body {
 #nav-bar input[type=checkbox] {
   display: none;
 }
-
+#nav-bar a:hover {
+  color: white;
+  text-decoration: inherit;
+}
 #nav-header {
   position: relative;
   width: var(--navbar-width);
