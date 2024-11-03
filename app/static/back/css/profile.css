@@ -10611,7 +10611,7 @@ div.code-toolbar > .toolbar span:hover {
   width: 62%;
   padding: 25px 40px 10px 40px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 7%;
+  border-radius: 0.75rem;
   height: 30rem;
 }
 .container .text{
@@ -10619,7 +10619,7 @@ div.code-toolbar > .toolbar span:hover {
   font-size: 180%;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  background: #0db8f6;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

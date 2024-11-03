@@ -1256,7 +1256,6 @@ def upload():
         return jsonify({'filename': file.filename}), 200
 
 @app.route('/analyze', methods=['POST'])
-@app.route('/analyze', methods=['POST'])
 async def analyze():
     data = request.json
     video_file_name = os.path.join(app.config['UPLOAD_FOLDER'], data['filename'])
