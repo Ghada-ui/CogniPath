@@ -40,8 +40,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # gemini init
 GEMINI_API_KEY =os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
-model_emotions = genai.GenerativeModel('gemini-1.5-flash', generation_config={"response_mime_type": "application/json"})
+model_name = 'gemini-1.5-flash'
+model = genai.GenerativeModel(model_name)
+model_emotions = genai.GenerativeModel(model_name, generation_config={"response_mime_type": "application/json"})
 CV_API_KEY = os.getenv("CV_API_KEY")
 SP_API_KEY = os.getenv("SP_API_KEY")
 ENDPOINT = os.getenv("ENDPOINT")
@@ -702,7 +703,7 @@ def correct_text():
     """
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash', generation_config={"response_mime_type": "application/json"})
+        model = genai.GenerativeModel(model_name, generation_config={"response_mime_type": "application/json"})
 
         response = model.generate_content(
             messages,
@@ -779,7 +780,7 @@ def simplify():
         pages : [str,str]
         where each str contains a maximum of 335 caracters and a min of 300 caractres  of the story
         """
-    model = genai.GenerativeModel('gemini-1.5-flash',                              
+    model = genai.GenerativeModel(model_name,                              
                                 generation_config={"response_mime_type": "application/json"})
 
     response = model.generate_content(
@@ -878,7 +879,7 @@ def process_emotion_options(API_URL, headers, filename,correct_emotion):
                 """
     
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash',
+        model = genai.GenerativeModel(model_name,
                                       generation_config={"response_mime_type": "application/json"})
         
         response = model.generate_content(
@@ -966,7 +967,7 @@ def Emotions():
 
     # Generate the content
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash',
+        model = genai.GenerativeModel(model_name,
                                       generation_config={"response_mime_type": "application/json"})
         
         response = model.generate_content(
@@ -1388,7 +1389,7 @@ def Story_with_one_Image(image_path, prompt):
     where each str contains a maximum of 335 characters and a minimum of 300 characters of the story.
     """
     model = genai.GenerativeModel(
-        'gemini-1.5-flash', generation_config={"response_mime_type": "application/json"}
+        model_name, generation_config={"response_mime_type": "application/json"}
     )
     image_file = genai.upload_file(image_path)
     print("\nImage read succecfully\n")
@@ -1412,7 +1413,7 @@ def Story_with_two_Images(image_path1, image_path2, prompt):
     where each str contains a maximum of 335 characters and a minimum of 300 characters of the story.
     """
     model = genai.GenerativeModel(
-        'gemini-1.5-flash', generation_config={"response_mime_type": "application/json"}
+        model_name, generation_config={"response_mime_type": "application/json"}
     )
     image_file1 = genai.upload_file(image_path1)
     image_file2 = genai.upload_file(image_path2)
@@ -1436,7 +1437,7 @@ def Story_without_Image(prompt):
     where each str contains a maximum of 335 characters and a minimum of 300 characters of the story.
     """
     model = genai.GenerativeModel(
-        'gemini-1.5-flash', generation_config={"response_mime_type": "application/json"}
+        model_name, generation_config={"response_mime_type": "application/json"}
     )
     content = [messages]
     try:
@@ -1552,7 +1553,7 @@ def generate_quiz_options(story):
                 """
     
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash',
+        model = genai.GenerativeModel(model_name,
                                       generation_config={"response_mime_type": "application/json"})
         
         response = model.generate_content(
