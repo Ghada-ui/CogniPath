@@ -1,1 +1,2 @@
 # CogniPath
+Cognipath is an innovative educational platform aimed at enhancing children's learning experiences through interactive and advanced AI-powered features. Designed to be inclusive of children, including those with Autism Spectrum Disorder (ASD), Cognipath provides a unique, engaging, and supportive environment to develop essential life skills. This project leverages the Gemini API within Google AI Studio to deliver personalized, interactive learning experiences that align with modern educational needs.
