@@ -4,6 +4,21 @@
 
 <img src="https://github.com/user-attachments/assets/72fb1a64-7bbd-4da4-89dc-29f63b92a13e" alt="project-screenshot" width=auto height="auto">
 
+<h2>📑 Table of Contents</h2>
+<ul>
+  <li><a href="#inspiration">✨ Inspiration</a></li>
+  <li><a href="#what-it-does">💡 What It Does</a></li>
+  <li><a href="#how-we-built-it">🔧 How We Built It</a></li>
+  <li><a href="#challenges-we-ran-into">🚧 Challenges We Ran Into</a></li>
+  <li><a href="#accomplishments-that-were-proud-of">🏆 Accomplishments That We're Proud Of</a></li>
+  <li><a href="#what-we-learned">📚 What We Learned</a></li>
+  <li><a href="#whats-next-for-cognipath">🔮 What's Next for Cognipath</a></li>
+  <li><a href="#installation">⚙️ Installation</a></li>
+  <li><a href="#usage">🚀 Usage</a></li>
+  <li><a href="#team">👥 Team</a></li>
+  <li><a href="#acknowledgments">📣 Acknowledgments</a></li>
+</ul>
+
 <h2>🧐 Structure</h2>
 
 ```
