@@ -2,7 +2,6 @@
 <h2>Welcome to Cognipath –Unleash your creativity !</h2>
 <p>Cognipath is an innovative educational platform aimed at enhancing children's learning experiences through interactive and advanced AI-powered features. Designed to be inclusive of children, including those with Autism Spectrum Disorder (ASD), Cognipath provides a unique, engaging, and supportive environment to develop essential life skills. This project leverages the Gemini API within Google AI Studio to deliver personalized, interactive learning experiences that align with modern educational needs.</p>
 
-<img src="https://github.com/user-attachments/assets/72fb1a64-7bbd-4da4-89dc-29f63b92a13e" alt="project-screenshot" width=auto height="auto">
 
 
 <h2>🧐 Structure</h2>
@@ -40,13 +39,13 @@
 
 ```
 
-<img src="https://github.com/user-attachments/assets/fc107b36-e14a-4781-8e98-4dfe8c078a9d" alt="project-screenshot" width=auto height="auto">
-
 <h1 align="center">🌟 Cognipath 🌟</h1>
 
 <p align="center">
   Cognipath is an AI-powered educational platform designed to help children develop essential skills through interactive and engaging tools. Leveraging Google Cloud’s Gemini API, Vertex AI, Imagen3, and Text-to-Speech, Cognipath provides personalized, inclusive learning experiences that empower children of all abilities, including those with Autism Spectrum Disorder (ASD).
 </p>
+
+<img src="https://github.com/user-attachments/assets/72fb1a64-7bbd-4da4-89dc-29f63b92a13e" alt="project-screenshot" width=auto height="auto">
 
 <h2>📑 Table of Contents</h2>
 <ul>
@@ -78,6 +77,7 @@
   <li><strong>Writing Wizard</strong>: Use the power of gemini flash 1.5 to understand the handwritten paragraphs please correct</li>
   <li><strong>Emotion Recognition</strong>: Presents emotion-related images and prompts children to identify the corresponding emotion, fostering emotional awareness.</li>
 </ul>
+<img src="https://github.com/user-attachments/assets/fc107b36-e14a-4781-8e98-4dfe8c078a9d" alt="project-screenshot" width=auto height="auto">
 <p>
   The platform also includes a parental dashboard that tracks daily, weekly, and monthly progress, recent activities, and provides insights on writing, communication, emotion understanding, and expressive proficiency.
 </p>
