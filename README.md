@@ -128,7 +128,7 @@
 <h2 id="installation">⚙️ Installation</h2>
 <ol>
   <li>Clone this repository:
-    <pre><code>git clone https://github.com/yourusername/cognipath.git</code></pre>
+    <pre><code>git clone https://github.com/Ghada-ui/CogniPath/tree/cognipath </code></pre>
   </li>
   <li>Navigate to the project directory:
     <pre><code>cd cognipath</code></pre>
@@ -152,12 +152,13 @@
 
 <h2 id="team">👥 Team</h2>
 <ul>
-  <li>Mohamed Hachicha</li>
-  <li>Ghada Eladeb</li>
   <li>Mohamed Regaya</li>
-  <li>Aya Omezine</li>
-  <li>Yahya Samet</li>
   <li>Mohamed Aziz Omezine</li>
+  <li>Aya Omezine</li>
+  <li>Ghada Eladeb</li>
+  <li>Mohamed Hachicha</li>
+  <li>Yahya Samet</li>
+  
 </ul>
 
 <h2 id="acknowledgments">📣 Acknowledgments</h2>
