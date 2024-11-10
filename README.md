@@ -148,7 +148,7 @@
 
 <h2 id="acknowledgments">📣 Acknowledgments</h2>
 <p>
-  This project was developed for the <strong>Gemini API Developer Competition</strong> by Google. We are grateful for the opportunity to contribute to innovative, data-driven educational tools and look forward to future developments.
+  This project was developed for the <strong>Google Cloud Gemini Hackathon</strong>. We are grateful for the opportunity to contribute to innovative, data-driven educational tools and look forward to future developments.
 </p>
 
 ---
