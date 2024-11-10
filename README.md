@@ -144,15 +144,7 @@
 </ol>
 
 <h2 id="team">👥 Team</h2>
-<ul>
-  <li>Mohamed Regaya</li>
-  <li>Mohamed Aziz Omezine</li>
-  <li>Aya Omezine</li>
-  <li>Ghada Eladeb</li>
-  <li>Mohamed Hachicha</li>
-  <li>Yahya Samet</li>
-  
-</ul>
+<img src="https://github.com/user-attachments/assets/4553b6a1-55f8-484a-a256-c020724a62a6" alt="project-screenshot" width=auto height="auto">
 
 <h2 id="acknowledgments">📣 Acknowledgments</h2>
 <p>
