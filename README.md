@@ -121,7 +121,7 @@
 <h2 id="installation">⚙️ Installation</h2>
 <ol>
   <li>Clone this repository:
-    <pre><code>git clone https://github.com/Ghada-ui/CogniPath/tree/cognipath</code></pre>
+    <pre><code>git clone https://github.com/Ghada-ui/CogniPath.git</code></pre>
   </li>
   <li>Navigate to the project directory:
     <pre><code>cd cognipath</code></pre>
