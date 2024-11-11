@@ -121,18 +121,44 @@
 <h2 id="installation">⚙️ Installation</h2>
 <ol>
   <li>Clone this repository:
-    <pre><code>git clone https://github.com/Ghada-ui/CogniPath/tree/cognipath </code></pre>
+    <pre><code>git clone https://github.com/Ghada-ui/CogniPath/tree/cognipath</code></pre>
   </li>
   <li>Navigate to the project directory:
     <pre><code>cd cognipath</code></pre>
   </li>
+  <li>Create a virtual environment:
+    <pre><code>python -m venv .venv</code></pre>
+  </li>
+  <li>Activate the virtual environment:
+    <pre><code>.venv/Scripts/Activate</code></pre>
+    (On macOS/Linux, use: <code>source .venv/bin/activate</code>)
+  </li>
   <li>Install dependencies:
     <pre><code>pip install -r requirements.txt</code></pre>
   </li>
+  <li>Create a `.env` file in the project directory with the following contents:
+    <pre><code>
+GEMINI_API_KEY=""   
+FIREBASE_WEB_API_KEY=""
+FIREBASE_AUTH_DOMAIN=""
+FIREBASE_DATABASE_URL=""
+FIREBASE_PROJECT_ID=""
+FIREBASE_STORAGE_BUCKET=""
+FIREBASE_MESSAGING_SENDER_ID=""
+FIREBASE_APP_ID=""
+FIREBASE_MEASUREMENT_ID=""
+APP_SECRET=""
+GCP_PROJECT=""
+GCP_REGION=""
+API_URL_3D=""
+Image_Bearer=""
+    </code></pre>
+  </li>
   <li>Run the application:
-    <pre><code>flask run</code></pre>
+    <pre><code>python run.py</code></pre>
   </li>
 </ol>
+
 
 <h2 id="usage">🚀 Usage</h2>
 <ol>
