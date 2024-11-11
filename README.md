@@ -154,10 +154,17 @@ API_URL_3D=""
 Image_Bearer=""
     </code></pre>
   </li>
+  <li>Download the `credentials.json` file for your Google Cloud project and place it in the root directory (`./`):
+    <pre><code>./credentials.json</code></pre>
+  </li>
+  <li>Ensure the `firebase.json` file is placed in the `app/` directory:
+    <pre><code>app/firebase.json</code></pre>
+  </li>
   <li>Run the application:
     <pre><code>python run.py</code></pre>
   </li>
 </ol>
+
 
 
 <h2 id="usage">🚀 Usage</h2>
