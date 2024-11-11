@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/style_loading.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+    <style>
+        .video{
+          border-radius: 50px;
+          margin-left: 19%;
+          margin-top: 2%;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-left: 16%;
+        }
+        #startButton, #stopButton {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 400;
+            font-size: unset;
+            color: #fff;
+            background-color: #0db8f6;
+            padding: 9px 65px;
+            border: none;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+            border-radius: 50px;
+            transition: 1000ms;
+            transform: translateY(0);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #startButton:hover, #stopButton:hover {
+            transition: 1000ms;
+            transform: translateY(-0px);
+            background-color: #fff;
+            color: #0db8f6;
+            padding: 9px 65px;
+        }
+        #startButton:active, #stopButton:active {
+        transform: translateY(2px); /* Press effect */
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 20px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+        transition: 0.1s ease; /* Faster transition on press */
+        }
+        .dot-spinner {
+        --uib-size: 2.8rem;
+        --uib-speed: .9s;
+        --uib-color: #0066f5;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: var(--uib-size);
+        width: var(--uib-size);
+        margin-right: 241px;
+        margin-top: 135px;
+        z-index: 1;
+        }
+
+        .dot-spinner__dot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 100%;
+        }
+
+        .dot-spinner__dot::before {
+        content: '';
+        height: 20%;
+        width: 20%;
+        border-radius: 50%;
+        background-color: var(--uib-color);
+        transform: scale(0);
+        opacity: 0.5;
+        animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
+        box-shadow: 0 0 20px rgba(18, 31, 53, 0.3);
+        }
+
+        .dot-spinner__dot:nth-child(2) {
+        transform: rotate(45deg);
+        }
+
+        .dot-spinner__dot:nth-child(2)::before {
+        animation-delay: calc(var(--uib-speed) * -0.875);
+        }
+
+        .dot-spinner__dot:nth-child(3) {
+        transform: rotate(90deg);
+        }
+
+        .dot-spinner__dot:nth-child(3)::before {
+        animation-delay: calc(var(--uib-speed) * -0.75);
+        }
+
+        .dot-spinner__dot:nth-child(4) {
+        transform: rotate(135deg);
+        }
+
+        .dot-spinner__dot:nth-child(4)::before {
+        animation-delay: calc(var(--uib-speed) * -0.625);
+        }
+
+        .dot-spinner__dot:nth-child(5) {
+        transform: rotate(180deg);
+        }
+
+        .dot-spinner__dot:nth-child(5)::before {
+        animation-delay: calc(var(--uib-speed) * -0.5);
+        }
+
+        .dot-spinner__dot:nth-child(6) {
+        transform: rotate(225deg);
+        }
+
+        .dot-spinner__dot:nth-child(6)::before {
+        animation-delay: calc(var(--uib-speed) * -0.375);
+        }
+
+        .dot-spinner__dot:nth-child(7) {
+        transform: rotate(270deg);
+        }
+
+        .dot-spinner__dot:nth-child(7)::before {
+        animation-delay: calc(var(--uib-speed) * -0.25);
+        }
+
+        .dot-spinner__dot:nth-child(8) {
+        transform: rotate(315deg);
+        }
+
+        .dot-spinner__dot:nth-child(8)::before {
+        animation-delay: calc(var(--uib-speed) * -0.125);
+        }
+
+        @keyframes pulse0112 {
+        0%,
+        100% {
+            transform: scale(0);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        }
+
+        
+      </style>
+</head>
+
+<body>
+    <h1 style="margin-left: 100px;">Expressify</h1>
+
+    <div id="sidebar">
+        {% include 'back_index.html' %}
+    </div>
+   
+        <div class="dot-spinner" id="loading-indicator" style="display: none;">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+        <img id="character" name="character" src="{{ url_for('static', filename='back/gif/silent1.gif') }}" alt="" style="width: 11%; position: absolute; margin-left: -9%; margin-top: 8%; border-radius: 35px;">
+        <video class="video" id="video" width="640" height="480" autoplay muted></video>
+        <br>
+        <div class="button-container">
+            <button class="btn-recognize" id="startButton">Start</button>
+            <button class="btn-recognize" id="stopButton">Stop</button>
+        </div>
+
+    <div id="result" hidden></div>
+
+    <script>
+// Add an event listener to run the hideLoader function after the page has loaded
+window.onload = function () {
+    setTimeout(hideLoader, 3000); // Hides the loader after 5 seconds
+};
+    </script>
+    <script>
+        let video = document.getElementById('video');
+        let startButton = document.getElementById('startButton');
+        let stopButton = document.getElementById('stopButton');
+        const loadingIndicator = document.getElementById("loading-indicator");
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Get access to the webcam
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                video.srcObject = stream;
+
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = function(event) {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = function() {
+                    let blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    let formData = new FormData();
+                    formData.append('video', blob, 'recorded_video.webm');
+                    loadingIndicator.style.display = 'block';
+
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.filename) {
+                            analyzeVideo(data.filename);
+                        } else {
+                            console.error('Error uploading video');
+                            loadingIndicator.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error uploading video:', error);
+                        loadingIndicator.style.display = 'none';
+                    });
+                };
+            })
+            .catch(error => {
+                console.error('Error accessing webcam:', error);
+            });
+
+        startButton.onclick = function() {
+            recordedChunks = [];
+            mediaRecorder.start();
+        };
+
+        stopButton.onclick = function() {
+            mediaRecorder.stop();
+        };
+
+                function analyzeVideo(filename) {
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+                    document.getElementById('result').innerHTML = data.result;
+                    playVoice(data.result);
+                } else if (data.error) {
+                    console.error('Error analyzing video:', data.error);
+                }
+                loadingIndicator.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error analyzing video:', error);
+                loadingIndicator.style.display = 'none';
+            });
+        }
+
+        function playVoice(text) {
+        fetch('/play_voice?generated_text=' + encodeURIComponent(text))
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const audio = new Audio(url);
+                
+                // Change the image source to the talking GIF when the audio starts
+                document.getElementById('character').src = "{{ url_for('static', filename='back/gif/talking1.gif') }}";
+                
+                audio.play();
+                
+                // Change the image back to silent GIF when the audio ends
+                audio.onended = function() {
+                    document.getElementById('character').src = "{{ url_for('static', filename='back/gif/silent1.gif') }}";
+                };
+            })
+            .catch(error => {
+                console.error('Error playing voice:', error);
+            });
+    }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
+</body>
+</html>

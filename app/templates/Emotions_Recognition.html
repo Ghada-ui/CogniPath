@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/magic.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/typing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/drag_and_drop.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  
+</head>
+<body style="overflow: hidden;">
+    <div id="sidebar">
+        {% include './back_index.html' %}
+      </div>
+    <div id="loading-indicator" class="popup">
+        <div class="popup-content">
+            <div class="u-loading">
+                <div class="u-loading__symbol">
+                    <img src="../static/back/img/Logo_A2SVv.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="icon-button" onclick="window.dialog.showModal();"><img src="../static/back/img/question.png" alt="Aide"></button>
+    <audio id="welldone">
+        <source src="../static/back/audio/Well_done.mp3" type="audio/mpeg">
+      </audio>
+      
+      <audio id="oops">
+        <source src="../static/back/audio/Oops.mp3" type="audio/mpeg">
+      </audio>
+    <dialog id="dialog" style="position: fixed;top: 3%;left: 3%;max-width: 47%;">
+        <h2>"These Are Your Guiding Steps for How to Use" 🌟</h2>
+        <p>1. "Select Your Perfect Phrase from the Fabulous Four!" 💫🌟</p>
+        <p>2. "Unlock the Power with One Magical Click! ✨"</p>
+        <img src="../static/back/img/Emotions_Recognition.gif" height=100% width="100%">
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+    <dialog id="dialog1">
+        <h2>"These Are Your Guiding Steps for How to Use" 🌟</h2>
+        <img src="../static/back/img/good2.gif" height=100% width="100%">
+        <p>Generating a new image... 💫🌟</p>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+    <dialog id="dialog2">
+        <h2>"These Are Your Guiding Steps for How to Use" 🌟</h2>
+        <img src="../static/back/img/bad.gif" height=100% width="100%">
+        <p>Generating a new image... 💫🌟</p>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+
+    <form action="/Emotions" method="post" id="my-form">
+        <div class="quiz-container">
+            <div class="options-container-left">
+                <div class="options">
+                    <div class="option" id="left-option-1">{{ emotion_data[0]['phrase'] }}</div>
+                    <div class="option" id="left-option-2">{{ emotion_data[1]['phrase'] }}</div>
+                </div>
+            </div>
+            <input id="correct_emotion" name="correct_emotion" type="hidden" value="{{ correct_emotion }}">
+            <button id="submit-button" type="submit" style="background: none; border: none; cursor: pointer;">
+                <img src="{{ url_for('static', filename='back/img/magic-wand.gif') }}" alt="">
+            </button>
+            <div class="options-container">
+                <div class="options">
+                    <div class="option" id="right-option-1">{{ emotion_data[2]['phrase'] }}</div>
+                    <div class="option" id="right-option-2">{{ emotion_data[3]['phrase'] }}</div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="selected-choice" name="selected-choice" value="">
+    </form>
+
+    {% if image_filename %}
+    <div class="typing-demo" >Can you find the sentence that shows the perfect feeling?</div>
+    <br>
+    <br><br><br>
+        <div class="image">
+            <img src="{{ url_for('static', filename=image_filename) }}" class="img" alt="hiii i am z">
+        </div>
+    {% endif %}
+    <script src="{{ url_for('static', filename='back/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='back/js/typing.js') }}"></script>
+    <script>
+        function playGreeting(audioId) {
+            var audio = document.getElementById(audioId);
+            audio.play();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('my-form');
+            var selectedChoiceInput = document.getElementById('selected-choice');
+            var correctEmotionInput = document.getElementById('correct_emotion');
+            var dialog = document.getElementById('dialog1');
+            var dialog2 = document.getElementById('dialog2');
+            const loadingIndicator2 = document.getElementById("loading-indicator");
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the form from submitting
+
+                // Get the selected choice and the correct emotion value
+                var selectedChoice = selectedChoiceInput.value;
+                var correctEmotion = correctEmotionInput.value;
+                // Create a JSON object with the data
+                var data = {
+                    selectedChoice: selectedChoice,
+                    correctEmotion: correctEmotion
+                };
+
+                // Store the JSON data in localStorage
+                localStorage.setItem('jsonData', JSON.stringify(data));
+
+                // Compare the values and display the result in the dialog
+                if (selectedChoice === correctEmotion) {
+                    dialog.querySelector('h2').textContent = 'Well done! Correct Answer';
+                    playGreeting("welldone");
+
+                
+                } else {
+                    dialog2.querySelector('h2').textContent = 'Oops! You need to practice more!';
+                    playGreeting("oops");
+                    dialog = dialog2;
+
+                    // Make an AJAX request to update the session variable
+                }
+
+                // Show the dialog
+                dialog.showModal();
+
+                // Reload the page to update the emotions
+                // window.location.reload();
+            });
+
+            // Add an event listener for the dialog's "close" event
+        });
+    </script>
+    
+</body>
+</html>

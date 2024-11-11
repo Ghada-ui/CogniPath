@@ -1,0 +1,24 @@
+{
+    "emotions": [
+        {
+            "phrase": "My heart is doing a happy dance!",
+            "prompt": "A child jumping up and down with a big smile, confetti falling around them, bright colors and sunshine in the background.",
+            "image": "a.jfif"
+        },
+        {
+            "phrase": "My tummy feels like a big balloon that's lost all its air.",
+            "prompt": "A child sitting alone on a swing set, looking down with a sad expression, cloudy sky with rain falling gently.",
+            "image": "b.jfif"
+        },
+        {
+            "phrase": "I feel like a volcano about to erupt!",
+            "prompt": "A child stomping their feet and clenching their fists, red cheeks and furrowed brows, dark storm clouds gathering overhead.",
+            "image": "c.jfif"
+        },
+        {
+            "phrase": "My knees feel wobbly like jelly!",
+            "prompt": "A child hiding behind a large teddy bear, looking out with wide eyes and trembling lips, dark shadows and spooky sounds in the background.",
+            "image": "d.jfif"
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/price.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+
+    <title>CogniPro</title>
+
+</head>
+<body>
+    <div id="sidebar">
+        {% include 'back_index.html' %}
+    </div>
+   
+    <div class="section over-hide">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section text-center py-5 py-md-0">
+                        <input class="pricing" type="checkbox" id="pricing" name="pricing"/>
+                        <label for="pricing"><span class="block-diff" style="margin-left: 20px;">Individual<span class="float-right" style="margin-left: 40px;">         Community</span></span></label>
+                        <div class="card-3d-wrap mx-auto" style="    margin-left: 580px; ">
+                            <div class="card-3d-wrapper">
+                                <div class="card-front">
+                                    <div class="pricing-wrap">
+                                        <h4 class="mb-5">Individual</h4>
+                                        <h2 class="mb-2"><sup>$</sup>10 / month</h2>
+                                        <p class="mb-4">Access to all features</p>
+                                        <p class="mb-1"><i class="uil uil-location-pin-alt size-22"></i></p>
+                                        <p class="mb-4">Includes 4000 tokens</p>
+                                        <a href="#0" class="link">Subscribe Now</a>
+                                        <div class="img-wrap img-2">
+                                            <img src="https://assets.codepen.io/1462889/sea.png" alt="">
+                                        </div>
+                                        <div class="img-wrap img-1">
+                                            <img src="../static/back/img/robot.png"  style="width: 75%;margin-left: 60px;">
+                                        </div>
+                                        <div class="img-wrap img-3">
+                                            <img src="https://assets.codepen.io/1462889/water.png" alt="">
+                                        </div>
+                                        <!-- <div class="img-wrap img-6">
+                                            <img src="https://assets.codepen.io/1462889/Stone.png" alt="">
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="pricing-wrap">
+                                        <h4 class="mb-5">Community</h4>
+                                        <h2 class="mb-2">Discuss with Admin</h2>
+                                        <p class="mb-4">Access to all features</p>
+                                        <p class="mb-1"><i class="uil uil-location-pin-alt size-22"></i></p>
+                                        <p class="mb-4">Contact us for details</p>
+                                        <a href="#0" class="link">Contact Admin</a>
+                                        <div class="img-wrap img-2">
+                                            <img src="https://assets.codepen.io/1462889/sea.png" alt="">
+                                        </div>
+                                   
+                                        <div class="img-wrap img-4" >
+                                            <img src="..\static\back\img\Home3 (8).png" alt="">
+                                        </div>
+                                        <!-- <div class="img-wrap img-7">
+                                            <img src="https://assets.codepen.io/1462889/IvyRock.png" alt="">
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

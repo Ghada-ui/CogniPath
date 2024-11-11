@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyfy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/text.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/style_loading.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/drag_and_drop.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/loading_book.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/book_gallery.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='front/css/alert.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='front/css/canvas.css') }}">
+</head>
+<body>
+   
+    <div id="sidebar">
+        {% include 'back_index.html' %}
+    </div>
+    <div id="loading-indicator" class="popup">
+        <div class="popup-content">
+            <div class="wrapper-book">
+                <div class="book-loader-container">
+                  <div class="spine"></div>
+                  <div class="page1" style="--page-num: 1"></div>
+                  <div class="page1" style="--page-num: 2"></div>
+                  <div class="page1" style="--page-num: 3"></div>
+                  <div class="page1" style="--page-num: 4"></div>
+                  <div class="page1 static right"></div>
+                  <div class="page1 static left"></div>
+                </div>
+              </div>
+              <div class="seconds" style=" margin-left: 258px; margin-top: 186px;position: absolute;">
+            
+                <div id="bar" class="bar-1 animating-1"></div>
+                <p>LOADING . . .</p>
+                </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <h1 style="margin-top: -49px;margin-left: 10%;position: absolute;">Storyfy</h1>
+        <div class="container" id="container" style="display: none;height: 64%;position: absolute;margin-top: 5px;margin-left: -6%;width: 75%;">
+          <section class="tools-board">
+            <div class="row" style="    margin-top: -15%;">
+              <ul class="options">
+                <li class="option tool" id="rectangle">
+                  <img src="../static/back/icons/rectangle.svg" alt="">
+                  <span>Rectangle</span>
+                </li>
+                <li class="option tool" id="circle">
+                  <img src="../static/back/icons/circle.svg" alt="">
+                  <span>Circle</span>
+                </li>
+                <li class="option tool" id="triangle">
+                  <img src="../static/back/icons/triangle.svg" alt="">
+                  <span>Triangle</span>
+                </li>
+                <li class="option">
+                  <input type="checkbox" id="fill-color">
+                  <label for="fill-color">Fill color</label>
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+              <ul class="options">
+                <li class="option active tool" id="brush">
+                  <img src="../static/back/icons/brush.svg" alt="">
+                  <span>Brush</span>
+                </li>
+                <li class="option tool" id="eraser">
+                  <img src="../static/back/icons/eraser.svg" alt="">
+                  <span>Eraser</span>
+                </li>
+                <li class="option">
+                  <input type="range" id="size-slider" min="1" max="30" value="5">
+                </li>
+              </ul>
+            </div>
+            <div class="row colors">
+              <label class="title">Colors</label>
+              <ul class="options">
+                <li class="option"></li>
+                <li class="option selected"></li>
+                <li class="option"></li>
+                <li class="option"></li>
+                <li class="option">
+                  <input type="color" id="color-picker" value="#4A98F7">
+                </li>
+              </ul>
+            </div>
+            <div class="row buttons">
+              <button class="clear-canvas">Clear Canvas</button>
+              <button class="save-img">Save As Image</button>
+            </div>
+          </section>
+          <section class="drawing-board" style="background:white">
+            <canvas id="mycanvas"style="width: 800px;height: 800px;background:white" width="800" height="800"></canvas>
+          </section>
+        </div>        
+        <form class="paper" action="/drawing" method="post" id="text-form">
+            <br>
+            {% if not corrected_text %}
+              <div class="stories" id="stories">
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div> 
+            </div>
+            {% endif %}
+            <div class="search-box" id="search-box">
+              <div class="icons">
+                <div class="icon-wrapper">
+                    <span id="files" name="files" onclick="handleFileSelect()"><img src="{{ url_for('static', filename='back/icons/picture.svg') }}" alt="Microphone Icon"></span>
+                </div>
+            </div>
+              <input type="text" id="user_input" name="user_input" placeholder="Unleash Your Thoughts in a Magical Story!" style="margin-bottom: 0%;">
+              <input type="text" hidden value="{{generated_text}}">
+              <div class="icons">
+                  <div class="icon-wrapper">
+                      <span id="micbtn" name="micbtn" ><img src="{{ url_for('static', filename='back/icons/mic.svg') }}" alt="Microphone Icon"></span>
+                  </div>
+                  <div class="icon-wrapper">
+                      <span id="drawbtn" name="drawbtn" onclick="toggleVisibility()">
+                          <img src="{{ url_for('static', filename='back/icons/draw.svg') }}" alt="Draw Icon">
+                      </span>
+                  </div>
+              </div>
+          </div>
+            <input class="btn-correct" onclick="save()" type="submit" value="Storyfy" style="margin-left: 227px; margin-top: 10px;position: absolute;">
+        </form> 
+        <br>
+      <!--             
+        <div>
+            <h2>Unleash Your Thoughts in a Magical Paragraph!</h2>
+            <p>Turn Complexity into Simplicity with a Single Tap!</p>
+        </div>
+      -->
+    </div>
+
+    {% if corrected_text %}
+    <div class="book1" id="book1">
+      <input type="radio" name="page" id="page-1" checked />
+      <label id="cover" class="page cover" for="page-3"><h1>{{ session['title']}} </h1></label>
+      <label class="page cover" for="page-1"></label>
+      <input type="radio" name="page" id="page-3" />
+      <label class="page" for="page-5" id="titleofthestory">
+          <center><h2>{{ session['title']}}</h2></center>
+          
+      </label>
+      <label class="page" for="page-3">
+        <h2>Chapter 1.</h2>
+          <p>{{ session['paragraph1']}} </p>
+      </label>
+      <input type="radio" name="page" id="page-5" />
+      <label class="page" id="page7" for="page-7">
+        <p>
+          <img class="generatedimg" src="{{ url_for('static', filename='storyImage1.png') }}"   />
+        </p>
+      </label>
+      <label class="page" for="page-5">
+        <h2>Chapter 2.</h2>
+        <p>{{ session['paragraph2']}} </p>
+      </label>
+      <input type="radio" name="page" id="page-7" />
+      <label class="page" for="page-9" id="page9">
+        <p>
+          <img class="generatedimg" src="{{ url_for('static', filename='storyImage2.png') }}"  />
+        </p>
+      </label>
+      <label class="page" for="page-7">
+        <p>The End.</p>     
+          <form action="/Quiz_page" method="POST" style="margin-top: 50px">
+            <input type="hidden" name="story" value="{{ corrected_text }}" />
+            <button style="margin-left: 11%;box-shadow: rgba(0, 0, 0, 0.1) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;" class="btn-correct" type="submit">Let's Take a Quiz!</button>
+          </form>
+      </label>
+      <input type="radio" name="page" id="page-9" />
+      <label class="page cover" for="page-11"></label>
+      <label class="page cover" for="page-9"></label>
+      <input type="radio" name="page" id="page-11" />
+  </div>
+    <div id="audioPlayerDiv" hidden></div>
+    <div class="ecriture" style="    margin-top: 255px;
+    margin-left: -634px;
+    z-index: 1;
+    width: 102px;
+    position: absolute;">
+    <button style="background-color:transparent;width:60px; border: none; padding: 0; display: flex; align-items: center; justify-content: center;margin-top: -157px;margin-left: 949px;" id="playbtn" class="button1">
+     
+    </button>
+    <style>
+      .quiz_button:hover{
+        cursor:pointer;
+      }
+      .button1 {
+            padding: 5px;
+            border-radius: 100%;
+            box-shadow: 0px 0px 5px 7px #1475ec73;
+            background-color: #0db8f6;
+            color: white;
+            font-size: 17px;
+            border: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .button1::before {
+            content: "fac";
+            background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNzUycHQiIGhlaWdodD0iNzUycHQiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDc1MiA3NTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8cGF0aCBkPSJtNTQ4Ljg2IDM4Mi4xNmMwIDM1LjUyLTMuMzE2NCA3MC4wOS05LjQ3MjcgMTAzLjI0LTAuOTQ1MzEgNC43MzQ0LTQuNzM0NCA3LjU3ODEtOS40NzI3IDcuNTc4MWgtMS44OTQ1Yy01LjIxMDktMC45NDUzMS04LjUyMzQtNi4xNTYyLTcuNTc4MS0xMC44OTEgNi4xNTYyLTMyLjIwMyA5LjQ3MjctNjUuODI4IDkuNDcyNy05OS45MjZzLTMuMzE2NC02OC42NjgtOS40NzI3LTEwMi43N2MtMC45NDUzMS01LjIxMDkgMi4zNjcyLTkuOTQ1MyA3LjU3ODEtMTAuODkxIDUuMjEwOS0wLjk0NTMxIDkuOTQ1MyAyLjM2NzIgMTAuODkxIDcuNTc4MSA2LjYzMjggMzUuMDM5IDkuOTQ5MiA3MC41NTkgOS45NDkyIDEwNi4wN3ptLTE0NC45Mi0xMzguNzZjMTAuODkxIDQ1LjkzOCAxNi41NzQgOTIuMzQ4IDE2LjU3NCAxMzguMjkgMCA0NS40NjUtNS4yMTA5IDg5Ljk4LTE2LjEwMiAxMzIuMTMtMC45NDUzMSAzLjMxNjQtMi4zNjcyIDYuMTU2Mi00LjI2MTcgOC41MjM0LTMuNzg5MSA1LjIxMDktOS40NzI3IDguMDUwOC0xNS42MjkgOC45OTYxaC0yLjgzOThjLTUuMjEwOSAwLTEwLjQxOC0xLjg5NDUtMTQuMjA3LTQuNzM0NGwtNzIuOTMtNTUuNDA2Yy0wLjk0NTMxLTAuNDcyNjYtMS44OTQ1LTAuOTQ1MzEtMi44Mzk4LTAuOTQ1MzFoLTUyLjA5NGMtOC41MjM0IDAtMTYuMTAyLTQuNzM0NC0yMC4zNjMtMTEuODQtMTIuMzEyLTIwLjgzNi0xOC40NjktNDYuODgzLTE4LjQ2OS03Ni4yNDYgMC0yOS44MzYgNi4xNTYyLTU3LjMwNSAxOC40NjktODEuOTMgMy43ODkxLTguMDUwOCAxMi4zMTItMTMuMjYyIDIxLjMxMi0xMy4yNjJoNTEuNjIxYzAuOTQ1MzEgMCAxLjg5NDUtMC40NzI2NiAyLjgzOTgtMC45NDUzMWw3MS41MDgtNTUuODg3YzIuODM5OC0xLjg5NDUgNS42ODM2LTMuMzE2NCA4Ljk5NjEtNC4yNjE3IDYuMTU2Mi0xLjQyMTkgMTIuMzEyLTAuNDcyNjYgMTcuOTk2IDIuODM5OCA1LjIxMDkgMy4zMTY0IDkgOC41MjczIDEwLjQxOCAxNC42ODR6bS0yLjgzOTggMTM4Ljc2YzAtNDQuNTE2LTUuMjEwOS04OS41MDgtMTUuNjI5LTEzNC4wMi0wLjQ3MjY2LTEuODk0NS0xLjQyMTktMi4zNjcyLTEuODk0NS0yLjgzOTgtMC40NzI2Ni0wLjQ3MjY2LTEuODk0NS0wLjk0NTMxLTMuNzg5MS0wLjQ3MjY2LTAuNDcyNjYgMC0xLjQyMTkgMC40NzI2Ni0xLjg5NDUgMC45NDUzMWwtNzEuNTA4IDU0LjkzOGMtNC4yNjE3IDMuMzE2NC05LjQ3MjcgNC43MzQ0LTE0LjY4IDQuNzM0NGgtNTEuMTQ4Yy0xLjg5NDUgMC0zLjMxNjQgMC45NDUzMS00LjI2MTcgMi44Mzk4LTEwLjg5MSAyMi4yNTgtMTYuNTc0IDQ2Ljg4My0xNi41NzQgNzMuODc5IDAgMjYuMDQ3IDUuMjEwOSA0OC43NzcgMTUuNjI5IDY2Ljc3MyAwLjk0NTMxIDEuNDIxOSAyLjM2NzIgMi4zNjcyIDQuMjYxNyAyLjM2NzJoNTIuMDk0YzUuMjEwOSAwIDEwLjQxOCAxLjg5NDUgMTQuNjggNC43MzQ0bDcxLjk4NCA1NS44ODNjMS40MjE5IDAuOTQ1MzEgMi44Mzk4IDAuOTQ1MzEgMy4zMTY0IDAuOTQ1MzEgMC45NDUzMSAwIDEuODk0NS0wLjQ3MjY2IDMuMzE2NC0xLjg5NDUgMC40NzI2Ni0wLjQ3MjY2IDAuNDcyNjYtMC45NDUzMSAwLjk0NTMxLTEuODk0NSA5Ljk0MTQtNDAuMjQ2IDE1LjE1Mi04My4zNDQgMTUuMTUyLTEyNi45MXptODIuODc1LTc5LjA4NmMtNS4yMTA5IDAuNDcyNjYtOC45OTYxIDUuMjEwOS04LjA1MDggMTAuNDE4IDIuODM5OCAyMi43MyA0LjI2MTcgNDUuOTM4IDQuMjYxNyA2OC42NjhzLTEuNDIxOSA0NS40NjUtNC4yNjE3IDY3LjI1Yy0wLjQ3MjY2IDUuMjEwOSAyLjgzOTggOS45NDUzIDguMDUwOCAxMC40MThoMS40MjE5YzQuNzM0NCAwIDguOTk2MS0zLjMxNjQgOS40NzI3LTguNTIzNCAyLjgzOTgtMjIuNzMgNC4yNjE3LTQ1LjkzOCA0LjI2MTctNjkuNjE3IDAtMjMuNjgtMS40MjE5LTQ3LjM1OS00LjI2MTctNzAuNTYyLTAuOTQ5MjItNS4yMTA5LTUuNjgzNi05LTEwLjg5NS04LjA1MDh6IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=");
+            background-size: 100%;
+            background-repeat: no-repeat;
+            color: transparent;
+            position: relative;
+            width: 50px;
+            height: 50px;
+            display: block;
+        }
+
+        .button1:active {
+            border-radius: 100%;
+            box-shadow: inset 0px 0px 10px 0px rgb(240, 237, 237);
+        }
+    </style>
+    </div><br>
+    <input type="hidden" id="hidden-corrected-text" value="{{ corrected_text }}">    
+    <span id="word" style="color: rrgb(233 251 51); font-family: 'League Spartan', sans-serif;position:absolute;font-size:35px;top: 45%;left: 88.5%;"></span>
+   
+    <div class="cont" style="display: none;">
+        <p id="corrected-text" class="content-container">{{ corrected_text }}</p>
+        <div id="panel"  class="content-container" style="font-family: 'League Spartan', sans-serif;"></div>
+    </div>
+    <audio id="voice" controls style="display: none;"> 
+      <source src="/play_voice?generated_text={{ corrected_text }}"  type="audio/mpeg">
+    </audio>
+ </div>
+{% endif %}
+
+    <button class="icon-button" onclick="window.dialog.showModal();"style="z-index: 1;"><img src="{{ url_for('static', filename='back/img/question.png') }}" alt="Aide"></button>
+   
+    <dialog id="dialog" style="position: fixed;top: 13%;left: 25%;max-width: 55%;">
+        <h2>"These Are Your Guiding Steps for How to Use" 🌟</h2>
+        <p>1. "Unleash Your Thoughts in a Magical Paragraph!" 📝🌟</p>
+        <p>2. "Turn Complexity into Simplicity with a Single Tap!" 🧩</p>
+        <img src="{{ url_for('static', filename='back/img/storyfy.gif') }}" height="100%" width="100%">
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+    <script> 
+      let hasDrawn = false;
+  
+      function onDraw() {
+        hasDrawn = true;
+      }
+
+      
+
+
+      const canvas = document.querySelector("canvas");
+      canvas.addEventListener('mousedown', onDraw);
+      canvas.addEventListener('touchstart', onDraw);
+    if (!canvas) {
+        console.error("Canvas element not found");
+    } else {
+        const toolBtns = document.querySelectorAll(".tool"),
+            fillColor = document.querySelector("#fill-color"),
+            sizeSlider = document.querySelector("#size-slider"),
+            colorBtns = document.querySelectorAll(".colors .option"),
+            colorPicker = document.querySelector("#color-picker"),
+            clearCanvas = document.querySelector(".clear-canvas"),
+            saveImg = document.querySelector(".save-img"),
+            ctx = canvas.getContext("2d");
+
+        // global variables with default value
+        let prevMouseX, prevMouseY;
+
+    } 
+    </script>
+    <script>
+      const form = document.getElementById("text-form");
+      const loadingIndicator = document.getElementById("loading-indicator");
+      form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          loadingIndicator.style.display = "block";
+          form.submit();
+      });
+    </script>
+    
+    
+    <script>
+      async function query(data) {
+        try {
+          const response = await fetch(
+            "https://api-inference.huggingface.co/models/alvdansen/soft-focus-3d",
+            {
+              headers: { Authorization: "Bearer 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" }, // Replace with your actual API token
+              method: "POST",
+              body: JSON.stringify(data),
+            }
+          );
+      
+          if (!response.ok) {
+            const errorDetail = await response.json(); // Parse the error response
+            console.error("Error response from API:", errorDetail);
+            throw new Error("Model loading failed: " + (errorDetail.error || "Unknown error"));
+          }
+      
+          const result = await response.blob();
+          return URL.createObjectURL(result); // Convert blob to object URL
+        } catch (error) {
+          console.error(error.message);
+          return null; // Return null on failure
+        }
+      }
+      async function query2(data) {
+        try {
+          const response = await fetch(
+            "https://api-inference.huggingface.co/models/alvdansen/soft-focus-3d",
+            {
+              headers: { Authorization: "Bearer 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" }, // Replace with your actual API token
+              method: "POST",
+              body: JSON.stringify(data),
+            }
+          );
+      
+          if (!response.ok) {
+            const errorDetail = await response.json(); // Parse the error response
+            console.error("Error response from API:", errorDetail);
+            throw new Error("Model loading failed: " + (errorDetail.error || "Unknown error"));
+          }
+      
+          const result = await response.blob();
+          return URL.createObjectURL(result); // Convert blob to object URL
+        } catch (error) {
+          console.error(error.message);
+          return null; // Return null on failure
+        }
+      }
+      async function generateImage() {
+        try {
+          // Generate image for session['paragraph1']
+          const imageBlob1 = await query({ "inputs": "{{ session['paragraph1'] }}" });
+          if (imageBlob1) {
+            const generatedImage1 = document.getElementById("generatedImage1");
+            generatedImage1.src = imageBlob1;
+            generatedImage1.style.display = "block";
+          } else {
+            console.error("Failed to generate image for paragraph 1");
+          }
+      
+          // Generate image for session['paragraph2']
+          const imageBlob2 = await query2({ "inputs": "{{ session['paragraph2'] }}" });
+          if (imageBlob2) {
+            const generatedImage2 = document.getElementById("generatedImage2");
+            generatedImage2.src = imageBlob2;
+            generatedImage2.style.display = "block";
+          } else {
+            console.error("Failed to generate image for paragraph 2");
+          }
+        } catch (error) {
+          console.error("Error generating images:", error.message);
+        }
+      }
+    </script>
+
+<!-- Add this JavaScript code to your HTML template or a separate JS file -->
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Ensure the DOM is fully loaded before accessing elements
+      
+          const playButton = document.getElementById("playbtn");
+          if (playButton) {
+              playButton.addEventListener("click", playAudioWithHighlight);
+          } else {
+              console.error("Play button not found");
+          }
+          
+
+          function delay(ms) {
+              return new Promise(resolve => setTimeout(resolve, ms));
+          }
+
+          async function playAudioWithHighlight() {
+              const targetElement1 = document.getElementById('cover');
+              if (targetElement1) {
+                targetElement1.click();
+                await delay(1000);
+              }
+              const targetElement2 = document.getElementById('titleofthestory');
+                if (targetElement2) {
+                  targetElement2.click();
+                  await delay(1000);
+                }
+              playButton.removeEventListener("click", playAudioWithHighlight);
+              var audio = document.getElementById("voice");
+              var textElement = document.getElementById("corrected-text");
+              if (!audio || !textElement) {
+                  console.error("Audio element or corrected text not found");
+                  return;
+              }
+              
+              const paragraph1 = "{{ session['paragraph1'] }}";
+              const paragraph2 = "{{ session['paragraph2'] }}";
+              const numberOfWordsInParagraph1 = paragraph1.split(/\s+/).length;
+              const numberOfWordsInParagraph2 = paragraph2.split(/\s+/).length;
+              console.log("numberOfWordsInParagraph1 = " + numberOfWordsInParagraph1)
+              var text = textElement.textContent;
+              var filteredText = text.replace(/[^a-zA-Z\s!.,?]/g, '');
+              var words = filteredText.split(" ");
+              var search_box = document.getElementById("search-box");
+              search_box.style.display="none"
+              var wordIndex = 0;
+      
+              var wordContainer = document.getElementById("wordContainer");
+              if (wordContainer) {
+                  wordContainer.innerHTML = ""; // Clear the container before starting a new audio playback
+              }
+      
+              audio.addEventListener('canplaythrough', function () {
+                  var wordSpan = document.getElementById("word");
+                  var timer = setInterval(function () {
+                      if (wordIndex < words.length) {
+                          wordSpan.textContent = words[wordIndex];
+      
+                          // Append the word to the container
+                          var wordDiv = document.createElement("div");
+                          wordDiv.textContent = words[wordIndex];
+                          if (wordContainer) {
+                              wordContainer.appendChild(wordDiv);
+                          }
+                          
+                          if (wordIndex === numberOfWordsInParagraph1) {
+                            // Trigger the click event on the desired element
+                            // Replace 'yourElementId' with the actual ID of the element you want to click
+                            const targetElement = document.getElementById('page7');
+                            if (targetElement) {
+                              targetElement.click();
+                            }
+                          }                                
+
+                          wordIndex++;
+                          if (wordIndex >= (numberOfWordsInParagraph1+numberOfWordsInParagraph2-3) ){
+                            const targetElement9 = document.getElementById('page9');
+                            if (targetElement9) {
+                              targetElement9.click();
+                            }
+                          }
+                      } else {
+                          clearInterval(timer);
+                          
+                          // Add the event listener back after playback
+                          audio.onended = function () {
+                              wordSpan.textContent = "";
+                              playButton.addEventListener("click", playAudioWithHighlight);
+                          };
+                      }
+                  }, (audio.duration * 1000) / words.length);
+              });
+              
+              audio.play();
+              search_box.style.display="flex"
+          }
+        });
+        const correctedTextElement = document.getElementById("hidden-corrected-text");
+        if (correctedTextElement) {
+            const correctedText = correctedTextElement.value;
+            if (correctedText) {
+                generateImage();
+            }
+        } else {
+            console.error("Hidden corrected text element not found");
+    }
+  </script>
+  <script>
+    // Check for browser support
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (window.SpeechRecognition) {
+  // Create a new instance of SpeechRecognition
+  const recognition = new SpeechRecognition();
+
+  // Set recognition properties
+  recognition.continuous = false; // Stop automatically after a pause
+  recognition.interimResults = false; // Get final results only
+  recognition.lang = "en-US"; // Set the language
+
+  // Start recognition on button click
+  document.getElementById("micbtn").addEventListener("click", () => {
+    recognition.start();
+  });
+
+  // Process the results
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById("user_input").value += transcript;
+    console.log("Transcript:", transcript);
+  };
+
+  // Handle errors
+  recognition.onerror = (event) => {
+    console.error("Speech recognition error detected: " + event.error);
+  };
+} else {
+  console.log("SpeechRecognition is not supported in this browser.");
+}
+function handleFileSelect() {
+                const fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.accept = "image/*";
+                fileInput.onchange = (ev) => {
+                    var file = ev.target.files[0];
+                    if (file) {
+                        var formData = new FormData();
+                        formData.append("file", file);
+
+                        fetch("/save_image_file", {
+                            method: "POST",
+                            body: formData,
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (data.message) {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("Error:", error);
+                            });
+                    }
+                };
+                fileInput.click();
+              }
+  </script>
+
+<script>
+  var toast = document.querySelector(".toast");
+      var toastClose = document.getElementById("toastClose");
+      var progress = document.querySelector(".progress");
+  
+      // Check if the toast is present and has the "active" class to avoid duplicate display
+      if (toast && !toast.classList.contains("active")) {
+          showFailureToast();
+      }
+  
+      toastClose.addEventListener("click", () => {
+          toast.classList.remove("active");
+  
+          setTimeout(() => {
+              progress.classList.remove("active");
+          }, 300);
+      });
+  
+      function showFailureToast() {
+          toast.classList.add("active");
+          progress.classList.add("active");
+          // toast.querySelector(".text-1").textContent = "Error";
+          // toast.querySelector(".text-2").textContent = "Sign-in failed. Please try again.";
+          // toast.querySelector(".toast-check").classList.remove("uil-check");
+          // toast.querySelector(".toast-check").classList.add("uil-times");
+  
+          setTimeout(() => {
+              toast.classList.remove("active");
+          }, 5000);
+  
+          setTimeout(() => {
+              progress.classList.remove("active");
+          }, 5300);
+      }
+</script>
+<script>
+  var toast = document.querySelector(".toast");
+      var toastClose = document.getElementById("toastClose");
+      var progress = document.querySelector(".progress");
+  
+      // Check if the toast is present and has the "active" class to avoid duplicate display
+      if (toast && !toast.classList.contains("active")) {
+          showFailureToast();
+      }
+  
+      toastClose.addEventListener("click", () => {
+          toast.classList.remove("active");
+  
+          setTimeout(() => {
+              progress.classList.remove("active");
+          }, 300);
+      });
+  
+      function showFailureToast() {
+          toast.classList.add("active");
+          progress.classList.add("active");
+          // toast.querySelector(".text-1").textContent = "Error";
+          // toast.querySelector(".text-2").textContent = "Sign-in failed. Please try again.";
+          // toast.querySelector(".toast-check").classList.remove("uil-check");
+          // toast.querySelector(".toast-check").classList.add("uil-times");
+  
+          setTimeout(() => {
+              toast.classList.remove("active");
+          }, 5000);
+  
+          setTimeout(() => {
+              progress.classList.remove("active");
+          }, 5300);
+      }
+</script>
+
+<script>
+  toolBtns = document.querySelectorAll(".tool"),
+  fillColor = document.querySelector("#fill-color"),
+  sizeSlider = document.querySelector("#size-slider"),
+  colorBtns = document.querySelectorAll(".colors .option"),
+  colorPicker = document.querySelector("#color-picker"),
+  clearCanvas = document.querySelector(".clear-canvas"),
+  saveImg = document.querySelector(".save-img"),
+  ctx = canvas.getContext("2d");
+
+ 
+
+  let prevMouseX, prevMouseY, snapshot,
+  isDrawing = false,
+  selectedTool = "brush",
+  brushWidth = 5,
+  selectedColor = "#000";
+
+  const setCanvasBackground = () => {
+      // setting whole canvas background to white, so the downloaded img background will be white
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = selectedColor; // setting fillstyle back to the selectedColor, it'll be the brush color
+  }
+
+  window.addEventListener("load", () => {
+      // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      setCanvasBackground();
+  });
+
+  const drawRect = (e) => {
+      // if fillColor isn't checked draw a rect with border else draw rect with background
+      if(!fillColor.checked) {
+          // creating circle according to the mouse pointer
+          return ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+      }
+      ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+  }
+
+  const drawCircle = (e) => {
+      ctx.beginPath(); // creating new path to draw circle
+      // getting radius for circle according to the mouse pointer
+      let radius = Math.sqrt(Math.pow((prevMouseX - e.offsetX), 2) + Math.pow((prevMouseY - e.offsetY), 2));
+      ctx.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI); // creating circle according to the mouse pointer
+      fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill circle else draw border circle
+  }
+
+  const drawTriangle = (e) => {
+      ctx.beginPath(); // creating new path to draw circle
+      ctx.moveTo(prevMouseX, prevMouseY); // moving triangle to the mouse pointer
+      ctx.lineTo(e.offsetX, e.offsetY); // creating first line according to the mouse pointer
+      ctx.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY); // creating bottom line of triangle
+      ctx.closePath(); // closing path of a triangle so the third line draw automatically
+      fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill triangle else draw border
+  }
+
+  const startDraw = (e) => {
+      isDrawing = true;
+      prevMouseX = e.offsetX; // passing current mouseX position as prevMouseX value
+      prevMouseY = e.offsetY; // passing current mouseY position as prevMouseY value
+      ctx.beginPath(); // creating new path to draw
+      ctx.lineWidth = brushWidth; // passing brushSize as line width
+      ctx.strokeStyle = selectedColor; // passing selectedColor as stroke style
+      ctx.fillStyle = selectedColor; // passing selectedColor as fill style
+      // copying canvas data & passing as snapshot value.. this avoids dragging the image
+      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  }
+
+  const drawing = (e) => {
+      if(!isDrawing) return; // if isDrawing is false return from here
+      ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
+
+      if(selectedTool === "brush" || selectedTool === "eraser") {
+          // if selected tool is eraser then set strokeStyle to white 
+          // to paint white color on to the existing canvas content else set the stroke color to selected color
+          ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+          ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse pointer
+          ctx.stroke(); // drawing/filling line with color
+      } else if(selectedTool === "rectangle"){
+          drawRect(e);
+      } else if(selectedTool === "circle"){
+          drawCircle(e);
+      } else {
+          drawTriangle(e);
+      }
+  }
+
+  toolBtns.forEach(btn => {
+      btn.addEventListener("click", () => { // adding click event to all tool option
+          // removing active class from the previous option and adding on current clicked option
+          document.querySelector(".options .active").classList.remove("active");
+          btn.classList.add("active");
+          selectedTool = btn.id;
+      });
+  });
+
+  sizeSlider.addEventListener("change", () => brushWidth = sizeSlider.value); // passing slider value as brushSize
+
+  colorBtns.forEach(btn => {
+      btn.addEventListener("click", () => { // adding click event to all color button
+          // removing selected class from the previous option and adding on current clicked option
+          document.querySelector(".options .selected").classList.remove("selected");
+          btn.classList.add("selected");
+          // passing selected btn background color as selectedColor value
+          selectedColor = window.getComputedStyle(btn).getPropertyValue("background-color");
+      });
+  });
+
+  colorPicker.addEventListener("change", () => {
+      // passing picked color value from color picker to last color btn background
+      colorPicker.parentElement.style.background = colorPicker.value;
+      colorPicker.parentElement.click();
+  });
+
+  clearCanvas.addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
+      setCanvasBackground();
+  });
+
+  saveImg.addEventListener("click", () => {
+      const link = document.createElement("a"); // creating <a> element
+      link.download = `${Date.now()}.jpg`; // passing current date as link download value
+      link.href = canvas.toDataURL(); // passing canvasData as link href value
+      link.click(); // clicking link to download image
+  });
+
+  canvas.addEventListener("mousedown", startDraw);
+  canvas.addEventListener("mousemove", drawing);
+  canvas.addEventListener("mouseup", () => isDrawing = false);
+
+  
+function setCanvasDimensions() {
+    if (!canvas) return;
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+function toggleVisibility() {
+    const container = document.getElementById("container");
+    const stories = document.getElementById("stories");
+    const book1 = document.getElementById("book1");
+    
+    if (book1) {
+        // Element exists, proceed with your logic
+        book1.style.display = book1.style.display === 'none' ? 'block' : 'none';
+    } else {
+        console.error("book1 not found in the DOM");
+    }
+
+    if (!container) return;
+
+    if (container.style.display === "none") {
+        container.style.display = "flex";
+        stories.style.display = "none";        
+        setCanvasDimensions();
+    } else {
+        container.style.display = "none";
+        stories.style.display = "block";        
+    }
+}
+
+document.getElementById("drawbtn").onclick = toggleVisibility;
+  
+</script>
+<script>
+  function save() {
+    if(hasDrawn)
+    {
+      var dataURL = canvas.toDataURL("image/png");
+    // Send the image data to the backend
+    fetch('/save_image', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image: dataURL })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+  }else {
+    console.log('No drawing detected, image will not be saved');
+  }
+}
+</script>
+</body>
+</html>

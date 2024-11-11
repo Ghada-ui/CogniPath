@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CogniPath</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='back/css/style_slide.css') }}">
+  <script src="https://kit.fontawesome.com/823f594b7d.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+</head>
+<style>
+  .najwa{
+    z-index: 999;
+  }
+</style>
+<body>
+<!-- partial:index.partial.html -->
+
+<div id="nav-bar"class="najwa">
+  <input id="nav-toggle" type="checkbox"/>
+  <div id="nav-header"><a href="{{ url_for('index') }}" id="nav-title" style="color: #00bbff;"><i class="fas fa-brain"></i>CogniPath</a>
+    <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
+    <hr/>
+  </div>
+  <div id="nav-content">
+    <a href="{{ url_for('back_index') }}" class="nav-button"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+    <a href="{{ url_for('profile') }}" class="nav-button"><i class="fas fa-user"></i><span>Profile</span></a>
+    <a href="{{ url_for('simplify') }}" class="nav-button"><i class="fas fa-file-pen"></i><span>Storyfy</span></a>
+    <a href="{{ url_for('video') }}" class="nav-button"><i class="fas fa-user"></i><span>Expressify</span></a>
+    <a href="{{ url_for('Essay_correction') }}" class="nav-button"><i class="fas fa-book"></i><span>Writing Wizard</span></a>
+    <a href="{{ url_for('EmotionsTest') }}" class="nav-button"><i class="fas fa-face-laugh"></i><span>Emotion Recognition</span></a>
+    <a href="{{ url_for('cognipro') }}" class="nav-button"><i class="fas fa-gem"></i><span>CogniPath Pro</span></a>
+    
+    <hr/>
+   
+    <div id="nav-content-highlight"></div>
+  </div>
+  <input id="nav-footer-toggle" type="checkbox"/>
+  <div id="nav-footer">
+    <div id="nav-footer-heading">
+      <div id="nav-footer-avatar"><img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547"/></div>
+      <div id="nav-footer-titlebox"><a id="nav-footer-title" href="/profile">CogniPath</a><span id="nav-footer-subtitle">{{current_user.first_name}}</span></div>
+      <label for="nav-footer-toggle"><i class="fas fa-caret-up"></i></label>
+    </div>
+    <div id="nav-footer-content">
+      <Lorem>Welcome Dear Student</Lorem>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+<!-- partial -->
+  
+</body>
+</html>
+

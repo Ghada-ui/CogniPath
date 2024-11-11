@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='back/css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='front/css/alert.css') }}">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+</head>
+<body style="overflow: hidden;">
+    <div id="sidebar">
+        {% include 'back_index.html' %}
+    </div>
+    <div class="container">
+        <div class="text">
+            Edit Info
+        </div>
+        <form action="/profile" method="POST">
+           <div class="form-row">
+              <div class="input-data">
+                <label class="label_email">Email Address</label>
+                 <input type="email" class="form-control" readonly value="{{ current_user.email }}" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                 <div class="underline"></div>
+              </div>
+              <div class="input-data">
+                <label class="label_email">First Name</label>
+                 <input type="text" class="form-control" name="firstName" value="{{ current_user.first_name }}" aria-describedby="first_nameHelp" required>
+                 <div class="underline"></div>
+              </div>
+           </div>
+           <div class="form-row">
+              <div class="input-data">
+                <label class="label_email">Last Name</label>
+                 <input type="text" class="form-control" name="lastName" value="{{ current_user.last_name }}" aria-describedby="last_nameHelp" placeholder="Your last name" required>
+                 <div class="underline"></div>
+              </div>
+              <div class="input-data">
+                <label class="label_email">Phone Number</label>
+                 <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="{{ current_user.phone_number }}" aria-describedby="phone_numberHelp" placeholder="Your phone number" required>
+                 <div class="underline"></div>
+                 <span id="validationMessage"></span>
+              </div>
+           </div>
+           <div class="form-row">
+            <div class="input-data">
+                <label class="label_email">Password</label>
+               <input type="text" class="form-control" name="password" aria-describedby="passwordHelp" placeholder="Your password">
+               <div class="underline"></div>
+            </div>
+            <div class="input-data">
+                <label class="label_email">Child Name</label>
+               <input type="text" class="form-control" name="childname" value="{{ child_profile.name }}" aria-describedby="ChildNameHelp" placeholder="Child Name" required>
+               <div class="underline"></div>
+            </div>
+         </div>
+         <div class="form-row">
+            <div class="input-data">
+                <label class="label_email">Child Birthdate</label>
+               <input type="date" class="form-control" name="childbirthdate" value="{{ child_profile.birthdate }}" aria-describedby="childbirthdateHelp" placeholder="Child Birthdate" required>
+               <div class="underline"></div>
+            </div>
+         </div>
+         <button class="btn-recognize" type="button" onclick="validateAndSubmit()">Start</button>
+        </form>
+        </div>
+    {% if success %}
+    <div class="toast" style="border-left: 8px solid #0e8223;">
+        <div class="toast-content">
+            <i class="uil uil-check toast-check" style="background-color: #0e8223;"></i>
+            <div class="message">
+                <span class="message-text text-1">Success</span>
+                <span class="message-text text-2">{{msg}}</span>
+            </div>
+        </div>
+        <i class="uil uil-multiply toast-close" id="toastClose"></i>
+        <div class="progress progress-custom"></div>
+    </div>
+    {% endif %}
+    {% if not success and msg %}
+    <div class="toast">
+        <div class="toast-content">
+            <i class="uil uil-times toast-check"></i>
+            <div class="message">
+                <span class="message-text text-1">Error</span>
+                <span class="message-text text-2">{{msg}}</span>
+            </div>
+        </div>
+        <i class="uil uil-multiply toast-close" id="toastClose"></i>
+        <div class="progress"></div>
+    </div>
+    {% endif %}
+<script>
+    function validatePhoneNumber() {
+        const phoneNumber = document.getElementById('phoneNumber').value;
+        const validationMessage = document.getElementById('validationMessage');
+
+        // Define the regex pattern for phone number validation (example pattern for international format)
+        const phonePattern = /^\+?[1-9]\d{1,14}$/;
+
+        if (phonePattern.test(phoneNumber)) {
+            validationMessage.textContent = 'Valid phone number';
+            validationMessage.style.color = 'green';
+            return true;
+        } else {
+            validationMessage.textContent = 'Invalid phone number';
+            validationMessage.style.color = 'red';
+            return false;
+        }
+    }
+
+    function validateAndSubmit() {
+        if (validatePhoneNumber()) {
+            document.querySelector('form').submit();
+        }
+    }
+</script>
+<script>
+    var toast = document.querySelector(".toast");
+    var toastClose = document.getElementById("toastClose");
+    var progress = document.querySelector(".progress");
+
+    // Check if the toast is present and has the "active" class to avoid duplicate display
+    if (toast && !toast.classList.contains("active")) {
+        showFailureToast();
+    }
+
+    toastClose.addEventListener("click", () => {
+        toast.classList.remove("active");
+
+        setTimeout(() => {
+            progress.classList.remove("active");
+        }, 300);
+    });
+
+    function showFailureToast() {
+        toast.classList.add("active");
+        progress.classList.add("active");
+
+        setTimeout(() => {
+            toast.classList.remove("active");
+        }, 5000);
+
+        setTimeout(() => {
+            progress.classList.remove("active");
+        }, 5300);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/magic.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/typing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='back/css/drag_and_drop.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='back/img/CogniPath.png') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="sidebar">
+        {% include './back_index.html' %}
+    </div>
+    <div id="loading-indicator" class="popup">
+        <div class="popup-content">
+            <div class="u-loading">
+                <div class="u-loading__symbol">
+                    <img src="{{ url_for('static', filename='back/img/Logo_A2SVv.svg' ) }}" alt="Loading..." />
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="icon-button" onclick="window.dialog.showModal();"><img src="{{ url_for('static', filename='back/img/question.png') }}" alt="Aide"></button>
+    <audio id="welldone">
+        <source src="{{ url_for('static', filename='back/audio/Well_done.mp3' ) }}" type="audio/mpeg">
+    </audio>
+    <audio id="oops">
+        <source src="{{ url_for('static', filename='back/audio/Oops.mp3') }}" type="audio/mpeg">
+    </audio>
+    <dialog id="dialog">
+        <h2>"These Are Your Guiding Steps for How to Use" 🌟</h2>
+        <p>1. "Select Your Perfect Phrase from the Fabulous Four!" 💫🌟</p>
+        <p>2. "Unlock the Power with One Magical Click! ✨"</p>
+        <img src="{{ url_for('static', filename='back/img/emotions.gif') }}" height=100% width="100%">
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+    <dialog id="dialog1">
+        <h2>"Well done! Correct Answer" 🌟</h2>
+        <img src="{{ url_for('static', filename='back/img/good2.gif') }}" height=100% width="100%">
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+    <dialog id="dialog2">
+        <h2>"Oops! You need to practice more!" 🌟</h2>
+        <img src="{{ url_for('static', filename='back/img/bad.gif')}}" height=100% width="100%">
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
+
+    <form action="/Quiz_page" method="post" id="my-form">
+        <div class="quiz-container">
+            <input type="hidden" name="story" value="{{ story }}">
+            <div class="options-container-left">
+                <div class="options">
+                    <div class="option" id="left-option-1">{{ session['wrong_answers'][0] }}</div>
+                    <div class="option" id="left-option-2">{{ session['wrong_answers'][1] }}</div>
+                </div>
+            </div>
+            <button id="submit-button" type="submit" style="background: none; border: none; cursor: pointer;">
+                <img src="{{ url_for('static', filename='back/img/magic-wand.gif') }}" alt="">
+            </button>
+            <div class="options-container-right">
+                <div class="options">
+                    <div class="option" id="right-option-1">{{ session['wrong_answers'][2] }}</div>
+                    <div class="option" id="right-option-2">{{ session['wrong_answers'][3] }}</div>
+                </div>
+                <input id="correct_answer" type="hidden" value="{{ session['correct_answer'] }}">
+            </div>
+        </div>
+        <center>
+            
+                    <p class="question">{{ session['question'] }}</p>
+              
+            
+            
+        </center>
+        <input type="hidden" id="selected-choice" name="selected-choice" value="">
+    </form>
+    <style>
+        .question {
+            position: absolute;
+            top: 26%;
+            left: 48%;
+            font-size: 19px;
+            margin: 5px;
+            padding: 20px;
+            background-color: #2fc0f4;
+            color: white;
+            transition: all 0.3s;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+            font-family: 'League Spartan', sans-serif;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+
+        }
+    </style>
+    <script src="{{ url_for('static', filename='back/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='back/js/typing.js') }}"></script>
+    <script>
+        // JavaScript to handle option selection and form submission
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('my-form');
+            var selectedChoiceInput = document.getElementById('selected-choice');
+            var correctEmotionInput = document.getElementById('correct_answer');
+            var dialog1 = document.getElementById('dialog1');
+            var dialog2 = document.getElementById('dialog2');
+        
+            document.querySelectorAll('.option').forEach(function (option) {
+                option.addEventListener('click', function () {
+                    selectedChoiceInput.value = this.textContent.trim();
+                });
+            });
+        
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the form from submitting
+        
+                var selectedChoice = selectedChoiceInput.value;
+                var correctEmotion = correctEmotionInput.value;
+        
+                if (selectedChoice === correctEmotion) {
+                    playGreeting('welldone');
+                    dialog1.showModal();
+                } else {
+                    playGreeting('oops');
+                    dialog2.showModal();
+                }                
+        
+                setTimeout(() => {
+                    form.submit();
+                }, 3000); // Adjust the delay as needed to allow time for the audio and dialog
+            });
+        
+            dialog1.addEventListener('close', function () {
+                window.location.reload();
+            });
+        
+            dialog2.addEventListener('close', function () {
+                window.location.reload();
+            });
+        
+            function playGreeting(audioId) {
+                var audio = document.getElementById(audioId);
+                audio.play();
+            }
+        });
+    </script>
+</body>
+</html>
