@@ -14,22 +14,8 @@ from PIL import UnidentifiedImageError
 
 load_dotenv()
 
-MJ_APIKEY_PUBLIC=os.getenv("MJ_APIKEY_PUBLIC")
-MJ_APIKEY_PRIVATE=os.getenv("MJ_APIKEY_PRIVATE")
 
-# Azure OpenAI Client Initialization
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_API_VERSION = os.getenv("AZURE_API_VERSION")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-client = AzureOpenAI(
-  api_key=AZURE_OPENAI_API_KEY,
-  api_version=AZURE_API_VERSION,
-  azure_endpoint=AZURE_OPENAI_ENDPOINT
-)
-
-IMAGE_API_URL = os.getenv("IMAGE_API_URL")
-API_URL_trocr=os.getenv("API_URL_trocr")
 API_URL_3D = os.getenv("API_URL_3D")
 Image_Bearer = os.getenv("Image_Bearer")
 headers = {"Authorization": Image_Bearer}
@@ -43,11 +29,7 @@ genai.configure(api_key=GEMINI_API_KEY)
 model_name = 'gemini-1.5-flash'
 model = genai.GenerativeModel(model_name)
 model_emotions = genai.GenerativeModel(model_name, generation_config={"response_mime_type": "application/json"})
-CV_API_KEY = os.getenv("CV_API_KEY")
-SP_API_KEY = os.getenv("SP_API_KEY")
 ENDPOINT = os.getenv("ENDPOINT")
-COGNITIVE_SERVICES_CREDENTIALS = os.getenv("COGNITIVE_SERVICES_CREDENTIALS")
-computervision_client = ComputerVisionClient(ENDPOINT, CognitiveServicesCredentials(COGNITIVE_SERVICES_CREDENTIALS))
 
 
 
